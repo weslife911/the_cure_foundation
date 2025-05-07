@@ -23,7 +23,9 @@ import Cookies from "js-cookie";
 
 function App() {
 
-  const jwt = Cookies.get("jwt")
+  const jwt = Cookies.get("jwt");
+
+  console.log(jwt);
 
   return (
     <>
