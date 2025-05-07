@@ -24,6 +24,10 @@ const userSchema = new Schema({
     role: {
         type: String,
     },
+    amount: {
+        type: Number,
+        required: true
+    },
     password: {
         type: String,
         minLength: 8,

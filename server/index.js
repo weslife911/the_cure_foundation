@@ -6,6 +6,9 @@ const cors = require("cors");
 const connectToDB = require("./database/db");
 
 const authRoutes = require("./routes/AuthRoutes");
+const questionRoutes = require("./routes/QuestionRoutes");
+const subjectRoutes = require("./routes/SubjectRoutes");
+const resultRoutes = require("./routes/ResultRoutes");
 
 const app = express();
 
@@ -17,6 +20,9 @@ app.use(cors({
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/question", questionRoutes);
+app.use("/api/subject", subjectRoutes);
+app.use("/api/result", resultRoutes);
 
 const PORT = Number(process.env.PORT) || 8080;
 

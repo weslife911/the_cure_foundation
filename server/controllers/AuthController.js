@@ -7,7 +7,7 @@ require("dotenv").config();
 const registerUser = async(req, res) => {
     try {
 
-        const { name, email, fieldOfStudy, countryCode, phoneNumber, role, password } = req.body;
+        const { name, email, fieldOfStudy, countryCode, phoneNumber, role, amount, password } = req.body;
 
         if(!name || !email || !fieldOfStudy || !countryCode || !phoneNumber || !password) return res.json({
             success: false,
@@ -36,6 +36,7 @@ const registerUser = async(req, res) => {
             countryCode,
             phoneNumber,
             role: role || "user",
+            amount: amount || 0,
             password: hashedPassword
         });
 
@@ -187,6 +188,50 @@ const getUser = async(req, res) => {
     }
 };
 
+const updateProfile = async(req, res) => {
+    try {
+
+        const { userId, name, fieldOfStudy, countryCode, phoneNumber } = req.body;
+
+        const user = await User.findById(userId);
+
+        if( !userId || !name || !fieldOfStudy || !countryCode || !phoneNumber) return res.json({
+            success: false,
+            message: "All fields are required!"
+        });
+
+        if(!user) return res.json({
+            success: false,
+            message: "User with given ID does not exist!"
+        });
+
+        const updatedUser = await User.findByIdAndUpdate(userId, {
+            $set: {
+                name,
+                fieldOfStudy,
+                countryCode,
+                phoneNumber
+            }
+        }, { new: true });
+
+        if(!updatedUser) return res.json({
+            success: false,
+            message: "Profile was not updated successfully!"
+        });
+
+        return res.json({
+            success: true,
+            message: "Profile updated successfully!"
+        });
+
+    } catch(e) {
+        return res.json({
+            success: false,
+            message: e.message
+        });
+    }
+};
+
 
 module.exports = {
     registerUser,
@@ -194,5 +239,6 @@ module.exports = {
     loginUser,
     logout,
     getUsers,
-    getUser
+    getUser,
+    updateProfile
 };

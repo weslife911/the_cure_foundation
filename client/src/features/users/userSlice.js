@@ -7,6 +7,7 @@ const initialState = {
     users: [],
     hasSignedUp: false,
     isLoggedIn: false,
+    authUser: {}
 };
 
 export const signupUser = createAsyncThunk("users/signupUser", async(data) => {
@@ -27,9 +28,27 @@ export const loginUser = createAsyncThunk("users/loginUser", async(data) => {
     }
 });
 
-export const logout = createAsyncThunk("users/logout", async(data) => {
+export const logout = createAsyncThunk("users/logout", async() => {
     try {
-        const response = await axiosInstance.post("/auth/logout", data);
+        const response = await axiosInstance.post("/auth/logout");
+        return response.data;
+    } catch(e) {
+        toast.error(e.message);
+    }
+});
+
+export const updateProfile = createAsyncThunk("users/updateProfile", async() => {
+    try {
+        const response = await axiosInstance.put("/auth/update-profile");
+        return response.data;
+    } catch(e) {
+        toast.error(e.message);
+    }
+});
+
+export const fetchAuthUser = createAsyncThunk("users/fetchAuthUser", async() => {
+    try {
+        const response = await axiosInstance.get("/auth/check");
         return response.data;
     } catch(e) {
         toast.error(e.message);
@@ -45,7 +64,6 @@ export const userSlice = createSlice({
             state.status = "pending";
         })
         .addCase(signupUser.fulfilled, (state, action) => {
-            console.log(action.payload);
             if(action.payload.success === true) {
                 state.hasSignedUp = true;
                 toast.success(action.payload.message);
@@ -57,9 +75,34 @@ export const userSlice = createSlice({
             state.status = "pending";
         })
         .addCase(loginUser.fulfilled, (state, action) => {
-            console.log(action.payload);
             if(action.payload.success === true) {
                 state.isLoggedIn = true;
+                toast.success(action.payload.message);
+            } else {
+                toast.error(action.payload.message);
+            }
+        })
+        .addCase(logout.pending, (state) => {
+            state.status = "pending";
+        })
+        .addCase(logout.fulfilled, (state, action) => {
+            if(action.payload.success === true) {
+                toast.success(action.payload.message);
+            } else {
+                toast.error(action.payload.message);
+            }
+        })
+        .addCase(fetchAuthUser.pending, (state) => {
+            state.status = "pending";
+        })
+        .addCase(fetchAuthUser.fulfilled, (state, action) => {
+            state.authUser = action.payload;
+        })
+        .addCase(updateProfile.pending, (state) => {
+            state.status = "pending";
+        })
+        .addCase(updateProfile.fulfilled, (state, action) => {
+            if(action.payload.success === true) {
                 toast.success(action.payload.message);
             } else {
                 toast.error(action.payload.message);
@@ -71,4 +114,5 @@ export const userSlice = createSlice({
 export const getUserStatus = (state) => state.users.status;
 export const hasSignedUp = (state) => state.users.hasSignedUp;
 export const isLoggedIn = (state) => state.users.isLoggedIn;
+export const getAuthUser = (state) => state.users.authUser;
 export default userSlice.reducer;

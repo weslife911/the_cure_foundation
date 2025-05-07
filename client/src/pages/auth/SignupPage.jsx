@@ -54,9 +54,9 @@ function SignupPage() {
   const countryStatus = useSelector(getCountryStatus);
   const userStatus = useSelector(getUserStatus);
 
-  if(countryStatus === "idle" || userStatus === "pending") return <>
-    <Loader/>
-  </>
+  // if(countryStatus === "pending" || userStatus === "pending") return <>
+  //   <Loader/>
+  // </>
 
   return (
     <div id="login" className="page wb-page">

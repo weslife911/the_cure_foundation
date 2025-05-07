@@ -31,9 +31,9 @@ function LoginPage() {
     }
   });
 
-  if(userStatus === "pending") return <>
-    <Loader/>
-  </>
+  // if(userStatus === "pending") return <>
+  //   <Loader/>
+  // </>
 
   return (
     <div id="login" className="page wb-page">
