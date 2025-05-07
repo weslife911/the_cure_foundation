@@ -16,7 +16,7 @@ app.use(express.json());
 
 const corsOptions = {
     origin: [
-      'https://the-cure-foundation.vercel.app', // Your Vercel frontend
+      'https://the-cure-foundation-1.onrender.com', // Your Vercel frontend
       'http://localhost:5173' // Vite default port
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
