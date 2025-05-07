@@ -12,4 +12,5 @@ const connectToDB = async() => {
     .catch((e) => console.log(e.message));
 };
 
+
 module.exports = connectToDB;
