@@ -17,8 +17,6 @@ app.use(express.json());
 const corsOptions = {
     origin: [
       'https://the-cure-foundation.vercel.app', // Your Vercel frontend
-      'https://the-cure-foundation.vercel.app', // Without trailing slash
-      'http://localhost:3000', // Local development
       'http://localhost:5173' // Vite default port
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -29,7 +27,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.options('*', cors(corsOptions));
+// app.options('*', cors(corsOptions));
 
 
 app.use(cookieParser());
