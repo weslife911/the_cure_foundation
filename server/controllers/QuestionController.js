@@ -4,9 +4,9 @@ const Question = require("../models/Question");
 const addQuestions = async(req, res) => {
     try {
 
-        const { fileName, fileGenre, fileLink } = req.body;
+        const { fileName, fileGenre, fileLink, field } = req.body;
 
-        if(!fileName || !fileGenre || !fileLink) return res.json({
+        if(!fileName || !fileGenre || !fileLink || !field) return res.json({
             success: false,
             message: "All fields required!"
         });

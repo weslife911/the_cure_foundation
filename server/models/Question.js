@@ -11,7 +11,11 @@ const questionSchema = new Schema({
     fileLink: {
         type: String,
         required: true
-    }
+    },
+    field: {
+        type: String,
+        required: true
+    },
 });
 
 const Question = model("Question", questionSchema);
