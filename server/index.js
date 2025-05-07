@@ -13,25 +13,25 @@ const resultRoutes = require("./routes/ResultRoutes");
 const app = express();
 
 app.use(express.json());
-const allowedOrigins = [
-    'https://the-cure-foundation.vercel.app',
-    'https://the-cure-foundation.vercel.app/',
-    'http://localhost:5173'
-  ];
-  
-  app.use(cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
+
+const corsOptions = {
+    origin: [
+      'https://the-cure-foundation.vercel.app', // Your Vercel frontend
+      'https://the-cure-foundation.vercel.app', // Without trailing slash
+      'http://localhost:3000', // Local development
+      'http://localhost:5173' // Vite default port
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
-    exposedHeaders: ['Authorization']
-  }));
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
+app.options('*', cors(corsOptions));
+
+
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
