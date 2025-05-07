@@ -48,7 +48,7 @@ const registerUser = async(req, res) => {
             await res.cookie("jwt", token, {
                 maxAge: 24 * 60 * 60 * 1000,
                 // httpOnly: true,
-                sameSite: "strict",
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
                 secure: process.env.NODE_ENV !== "development",
             });
 

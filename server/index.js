@@ -20,14 +20,14 @@ const corsOptions = {
       'http://localhost:5173' // Vite default port
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    // allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
-    optionsSuccessStatus: 200
+    // optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
 
-// app.options('*', cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 
 app.use(cookieParser());
