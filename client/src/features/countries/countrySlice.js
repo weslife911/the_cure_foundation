@@ -7,7 +7,7 @@ const initialState = {
     countries: []
 };
 
-const COUNTRIES_URL = "http://localhost:3500/countries";
+const COUNTRIES_URL = "https://restcountries.com/v3.1/all";
 
 export const fetchCountries = createAsyncThunk("countries/fetchCountries", async() => {
     try {
