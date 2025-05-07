@@ -7,7 +7,7 @@ import Loader from "./Loader";
 
 function Header() {
 
-    const jwt = Cookies.get("__vercel_toolbar");
+    const jwt = Cookies.get("jwt");
 
     const dispatch = useDispatch();
 
