@@ -49,6 +49,15 @@ app.get('/health', (req, res) => {
   });
 });
 
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: "Welcome to THE CURE FOUNDATION'S API",
+    status: 'healthy',
+    uptime: process.uptime(),
+    timestamp: Date.now()
+  });
+});
+
 const PORT = Number(process.env.PORT) || 8080;
 
 connectToDB();
