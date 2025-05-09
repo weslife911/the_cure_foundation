@@ -4,7 +4,7 @@ const { addQuestions, getQuestions, getQuestion } = require("../controllers/Ques
 const router = Router();
 
 router.post("/add-question", addQuestions);
-router.get("/get-questions", getQuestions);
-router.get("/get-question/:id", getQuestion);
+router.get("/questions", getQuestions);
+router.get("/question/:id", getQuestion);
 
 module.exports = router;
