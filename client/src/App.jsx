@@ -26,8 +26,6 @@ function App() {
   const jwt = Cookies.get("jwt");
   const token = localStorage.getItem("token");
 
-  console.log(jwt);
-
   return (
     <>
 

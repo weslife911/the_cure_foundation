@@ -9,7 +9,7 @@ const initialState = {
 
 export const fetchImages = createAsyncThunk("images/fetchImages", async() => {
     try {
-        const images = await axiosInstance("/image/images");
+        const images = await axiosInstance.get("/image/images");
         return images.data;
     } catch(e) {
         return e.message;
@@ -18,7 +18,7 @@ export const fetchImages = createAsyncThunk("images/fetchImages", async() => {
 
 export const fetchTestimonies = createAsyncThunk("images/fetchTestimonies", async() => {
     try {
-        const testimonies = await axiosInstance("/testimony/testimonies");
+        const testimonies = await axiosInstance.get("/testimony/testimonies");
         return testimonies.data;
     } catch(e) {
         return e.message;
@@ -35,14 +35,14 @@ export const imageSlice = createSlice({
         })
         .addCase(fetchImages.fulfilled, (state, action) => {
             state.status = "fulfilled";
-            state.images.concat(action.payload);
+            state.images = action.payload;
         })
         .addCase(fetchTestimonies.pending, (state) => {
             state.status = "pending";
         })
         .addCase(fetchTestimonies.fulfilled, (state, action) => {
             state.status = "fulfilled";
-            state.testimonies.concat(action.payload);
+            state.testimonies = action.payload;
         })
     }
 });

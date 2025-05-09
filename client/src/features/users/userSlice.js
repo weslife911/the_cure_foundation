@@ -13,6 +13,7 @@ const initialState = {
 export const signupUser = createAsyncThunk("users/signupUser", async(data) => {
     try {
         const response = await axiosInstance.post("/auth/signup", data);
+        console.log(response.data);
         return response.data;
     } catch(e) {
         toast.error(e.message);
@@ -22,6 +23,7 @@ export const signupUser = createAsyncThunk("users/signupUser", async(data) => {
 export const loginUser = createAsyncThunk("users/loginUser", async(data) => {
     try {
         const response = await axiosInstance.post("/auth/login", data);
+        console.log(response.data);
         return response.data;
     } catch(e) {
         toast.error(e.message);
@@ -77,10 +79,13 @@ export const userSlice = createSlice({
         })
         .addCase(loginUser.fulfilled, (state, action) => {
             if(action.payload.success === true) {
+                
+            console.log(action.payload);
                 state.isLoggedIn = true;
                 localStorage.setItem("token", action.payload.token);
                 toast.success(action.payload.message);
             } else {
+                console.log(action.payload);
                 toast.error(action.payload.message);
             }
         })

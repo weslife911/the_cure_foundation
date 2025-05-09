@@ -2,10 +2,21 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { getImages } from '../../features/images/imageSlice'
 import ActivityBox from '../../components/ActivityBox';
+import { usePagination } from "../../hooks/usePagination";
 
 function ActivitiesPage() {
 
   const images = useSelector(getImages).filter(image => image.field === "activity");
+
+  const itemsPerPage = 6;
+  const {
+    currentItems,
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+  } = usePagination(images, itemsPerPage);
 
   return (
     <div id="activities" className="page wb-page">
@@ -34,7 +45,7 @@ function ActivitiesPage() {
 
             <ul className="imageListsWidget imgs-gallery borderGallery ">
                     
-                {images.map((image) => (
+                {currentItems.map((image) => (
                   <ActivityBox key={image._id} image={image} />
                 ))}
                 
@@ -42,7 +53,36 @@ function ActivitiesPage() {
                     </ul>
                 </div>
 
-              {/* pagination */}
+                <div style={{display: "flex", justifyContent: "center"}}>
+                  <nav aria-label="Page navigation">
+                    <ul className="pagination">
+
+                    <li className='page-item'>
+                      <button className='page-link' onClick={prevPage} disabled={currentPage === 1}>
+                        Previous
+                      </button>
+                    </li>
+
+                    {Array.from({ length: totalPages }, (_, i) => (
+                    <li className='page-item' key={i + 1}>
+                    <button
+                      
+                      onClick={() => goToPage(i + 1)}
+                      className={currentPage === i + 1 ? 'active' : 'page-link'}
+                    >
+                      {i + 1}
+                    </button>
+                    </li>
+                  ))}
+
+                  <li className='page-item'>
+                  <button className='page-link' onClick={nextPage} disabled={currentPage === totalPages}>
+                    Next
+                  </button>
+                  </li>
+                    </ul>
+                  </nav>
+                </div>
     
 </div>
             

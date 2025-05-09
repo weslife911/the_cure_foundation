@@ -6,8 +6,7 @@ function TestimonyBox({ testimony }) {
 
     const image = useSelector((state) => getImageById(state, testimony.image));
 
-  return (
-    <div className="row ">                        
+  return (                      
         <div className="col-lg-4 col-md-4 col-sm-12 ">
             <div className="testimonial-card ">
                 <div className="iconWidget icon-star ">
@@ -20,7 +19,7 @@ function TestimonyBox({ testimony }) {
                 <div className="richTextWidget testimonial-content ">
                     <p>
                         &ldquo;
-                        {testimony.userName}
+                        {testimony.testimony}
                         &rdquo;
                     </p>
                 </div>            
@@ -29,7 +28,7 @@ function TestimonyBox({ testimony }) {
                                                  
             <div className="testimonial-bio ">
                 <div className="imageWidget  ">
-                    <img className="lazyload testimonial-bio-img" src={image} />
+                    <img className="lazyload testimonial-bio-img"  />
                 </div>
     
                 <div className="richTextWidget  ">
@@ -37,7 +36,7 @@ function TestimonyBox({ testimony }) {
                     {testimony.occupation}
                     </p>
                     <h4 className="testimonial-bio-name">
-                    {testimony.testimony}
+                    {testimony.userName}
                     </h4>
                 </div>            
         
@@ -46,8 +45,7 @@ function TestimonyBox({ testimony }) {
                                          
         </div>  
                                              
-                                         
-    </div>
+                
   )
 }
 

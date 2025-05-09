@@ -2,10 +2,21 @@ import React from 'react'
 import { useSelector } from "react-redux";
 import { getTestimonies } from '../../features/images/imageSlice';
 import TestimonyBox from '../../components/TestimonyBox';
+import { usePagination } from '../../hooks/usePagination';
 
 function TestimonialsPage() {
 
      const testimonies = useSelector(getTestimonies);
+
+     const itemsPerPage = 3;
+       const {
+         currentItems,
+         currentPage,
+         totalPages,
+         nextPage,
+         prevPage,
+         goToPage,
+       } = usePagination(testimonies, itemsPerPage);
 
   return (
     <div id="home" className="page wb-page">
@@ -35,14 +46,45 @@ function TestimonialsPage() {
                                      </div>
                                 
                                      
-                                        {testimonies.map((testimony) => (
+                                        <div className='row'>
+                                        {currentItems.map((testimony) => (
                                              <TestimonyBox key={testimony._id} testimony={testimony} />
-                                        ))}         
+                                        ))} 
+                                        </div >        
                                      
                                 
                                      
                                      <div style={{display: "flex", justifyContent: "center"}}>
-                                          {/* Pagination        */}
+                                     <div style={{display: "flex", justifyContent: "center"}}>
+                  <nav aria-label="Page navigation">
+                    <ul className="pagination">
+
+                    <li className='page-item'>
+                      <button className='page-link' onClick={prevPage} disabled={currentPage === 1}>
+                        Previous
+                      </button>
+                    </li>
+
+                    {Array.from({ length: totalPages }, (_, i) => (
+                    <li className='page-item' key={i + 1}>
+                    <button
+                      
+                      onClick={() => goToPage(i + 1)}
+                      className={currentPage === i + 1 ? 'active' : 'page-link'}
+                    >
+                      {i + 1}
+                    </button>
+                    </li>
+                  ))}
+
+                  <li className='page-item'>
+                  <button className='page-link' onClick={nextPage} disabled={currentPage === totalPages}>
+                    Next
+                  </button>
+                  </li>
+                    </ul>
+                  </nav>
+                </div>
                                      </div> 
                                          
                                     </div></section></div>
