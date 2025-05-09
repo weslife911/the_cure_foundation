@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserStatus, logout } from '../features/users/userSlice';
+import { useDispatch } from "react-redux";
+import { logout } from '../features/users/userSlice';
 import Loader from "./Loader";
 
 function Header() {
@@ -11,12 +11,6 @@ function Header() {
     const token = localStorage.getItem("token");
 
     const dispatch = useDispatch();
-
-    const userStatus = useSelector(getUserStatus);
-
-    if(userStatus === "idle") return <>
-    <Loader/>
-    </>
 
     return (
         <header className="blockHeader wb-header logo_left " fixed="false">
@@ -50,7 +44,7 @@ function Header() {
                             </li>  
                                                                 
                 
-                            {!jwt || !token ? <>
+                            {!jwt ? <>
                                 <li className="dropdown">
                                 <Link to="/about" pageslug="about" linktype="Page" className="siteNavLink">
                                     ABOUT

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from "react-redux";
-import { getStatus, getTestimonies } from '../../features/images/imageSlice';
+import { getTestimonies } from '../../features/images/imageSlice';
 import TestimonyBox from '../../components/TestimonyBox';
 import { usePagination } from '../../hooks/usePagination';
 
@@ -8,7 +8,6 @@ function TestimonialsPage() {
 
      const testimonies = useSelector(getTestimonies);
 
-     const status = useSelector(getStatus);
 
      const itemsPerPage = 3;
        const {
@@ -19,10 +18,6 @@ function TestimonialsPage() {
          prevPage,
          goToPage,
        } = usePagination(testimonies, itemsPerPage);
-
-       if(status === "pending") return <div className="spinner-border" role="status">
-       <span className="sr-only">Loading...</span>
-     </div>
 
   return (
     <div id="home" className="page wb-page">

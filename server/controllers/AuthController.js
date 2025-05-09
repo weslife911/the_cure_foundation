@@ -112,8 +112,8 @@ const loginUser = async (req, res) => {
             // httpOnly: true,
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
             secure: process.env.NODE_ENV !== "development",
-            domain: "https://the-cure-foundation.onrender.com",
-            path: "/"
+            // domain: "https://the-cure-foundation.onrender.com",
+            // path: "/"
         });
 
         return res.json({

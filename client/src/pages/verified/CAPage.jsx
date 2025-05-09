@@ -1,7 +1,14 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
+import { getAllQuestions } from '../../features/questions/questionSlice';
 
 function CAPage() {
+
+  const questions = useSelector(getAllQuestions).filter(question => question.field === "ca");
+
+  console.log(questions);
+
   return (
     <div id="ca" className="page wb-page">
                                     <style id="sectionStyle-10946059">

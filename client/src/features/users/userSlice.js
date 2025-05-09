@@ -66,6 +66,7 @@ export const userSlice = createSlice({
             state.status = "pending";
         })
         .addCase(signupUser.fulfilled, (state, action) => {
+            state.status = "fulfilled";
             if(action.payload.success === true) {
                 state.hasSignedUp = true;
                 localStorage.setItem("token", action.payload.token);
@@ -78,9 +79,8 @@ export const userSlice = createSlice({
             state.status = "pending";
         })
         .addCase(loginUser.fulfilled, (state, action) => {
+            state.status = "fulfilled";
             if(action.payload.success === true) {
-                
-            console.log(action.payload);
                 state.isLoggedIn = true;
                 localStorage.setItem("token", action.payload.token);
                 toast.success(action.payload.message);
@@ -93,6 +93,7 @@ export const userSlice = createSlice({
             state.status = "pending";
         })
         .addCase(logout.fulfilled, (state, action) => {
+            state.status = "fulfilled";
             if(action.payload.success === true) {
                 localStorage.removeItem("token");
                 toast.success(action.payload.message);
@@ -104,12 +105,14 @@ export const userSlice = createSlice({
             state.status = "pending";
         })
         .addCase(fetchAuthUser.fulfilled, (state, action) => {
+            state.status = "fulfilled";
             state.authUser = action.payload;
         })
         .addCase(updateProfile.pending, (state) => {
             state.status = "pending";
         })
         .addCase(updateProfile.fulfilled, (state, action) => {
+            state.status = "fulfilled";
             if(action.payload.success === true) {
                 toast.success(action.payload.message);
             } else {

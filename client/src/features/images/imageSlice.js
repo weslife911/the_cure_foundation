@@ -47,7 +47,7 @@ export const imageSlice = createSlice({
     }
 });
 
-export const getStatus = (state) => state.images.status;
+export const getImageStatus = (state) => state.images.status;
 export const getImages = (state) => state.images.images;
 export const getTestimonies = (state) => state.images.testimonies;
 export const getImageById = (state, imageId) => {

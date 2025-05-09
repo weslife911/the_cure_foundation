@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getImages, getStatus } from '../../features/images/imageSlice'
+import { getImages } from '../../features/images/imageSlice'
 import ActivityBox from '../../components/ActivityBox';
 import { usePagination } from "../../hooks/usePagination";
 
@@ -17,12 +17,6 @@ function ActivitiesPage() {
     prevPage,
     goToPage,
   } = usePagination(images, itemsPerPage);
-
-  const status = useSelector(getStatus);
-
-  if(status === "pending") return <div className="spinner-border" role="status">
-  <span className="sr-only">Loading...</span>
-</div>
 
   return (
     <div id="activities" className="page wb-page">

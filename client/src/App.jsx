@@ -20,11 +20,27 @@ import HomePage from "./pages/common/HomePage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Cookies from "js-cookie";
+import { useSelector } from "react-redux";
+import { getUserStatus } from "./features/users/userSlice";
+import { getCountryStatus } from "./features/countries/countrySlice";
+import { getImageStatus } from "./features/images/imageSlice";
+import { getQuestionStatus } from "./features/questions/questionSlice";
 
 function App() {
 
   const jwt = Cookies.get("jwt");
   const token = localStorage.getItem("token");
+
+  const userStatus = useSelector(getUserStatus);
+  const countryStatus = useSelector(getCountryStatus);
+  const imageStatus  = useSelector(getImageStatus);
+  const questionStatus = useSelector(getQuestionStatus);
+
+  console.log(userStatus, countryStatus, imageStatus, questionStatus);
+
+  if(userStatus === "pending" || countryStatus === "pending" || imageStatus === "pending" || questionStatus === "pending") return <div className="spinner-border" role="status">
+  <span className="sr-only">Loading...</span>
+</div>
 
   return (
     <>
