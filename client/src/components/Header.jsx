@@ -7,7 +7,6 @@ import { logout } from '../features/users/userSlice';
 function Header() {
 
     const jwt = Cookies.get("jwt");
-    const token = localStorage.getItem("token");
 
     const dispatch = useDispatch();
 

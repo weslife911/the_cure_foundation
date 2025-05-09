@@ -56,8 +56,7 @@ const registerUser = async(req, res) => {
 
             return res.json({
                 success: true,
-                message: "Account created successfully!",
-                token
+                message: "Account created successfully!"
             });
         } else {
             return res.json({
@@ -118,8 +117,7 @@ const loginUser = async (req, res) => {
 
         return res.json({
             success: true,
-            message: "Logged in successfully!",
-            token
+            message: "Logged in successfully!"
         });
 
     } catch (e) {

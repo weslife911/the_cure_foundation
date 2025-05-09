@@ -29,7 +29,6 @@ import { getQuestionStatus } from "./features/questions/questionSlice";
 function App() {
 
   const jwt = Cookies.get("jwt");
-  const token = localStorage.getItem("token");
 
   const userStatus = useSelector(getUserStatus);
   const countryStatus = useSelector(getCountryStatus);
@@ -48,30 +47,30 @@ function App() {
       <Routes>
         {/* Guest Routes */}
 
-        <Route path="/about" element={ !jwt || !token ? <AboutPage/> : <Navigate to="/" />} />
-        <Route path="/activities" element={ !jwt || !token ? <ActivitiesPage/> : <Navigate to="/" />} />
-        <Route path="/services" element={ !jwt || !token ? <ServicesPage/> : <Navigate to="/" />} />
-        <Route path="/testimonials" element={ !jwt || !token ? <TestimonialsPage/> : <Navigate to="/" />} />
+        <Route path="/about" element={ !jwt ? <AboutPage/> : <Navigate to="/" />} />
+        <Route path="/activities" element={ !jwt ? <ActivitiesPage/> : <Navigate to="/" />} />
+        <Route path="/services" element={ !jwt ? <ServicesPage/> : <Navigate to="/" />} />
+        <Route path="/testimonials" element={ !jwt ? <TestimonialsPage/> : <Navigate to="/" />} />
 
         {/* Guest Routes */}
 
         {/* Auth Routes */}
 
-        <Route path="/login" element={ !jwt || !token ? <LoginPage/> : <Navigate to="/" />} />
-        <Route path="/signup" element={ !jwt || !token ? <SignupPage/> : <Navigate to="/" />} />
-        <Route path="/confirm-email" element={ !jwt || !token ? <ConfirmEmailPage/> : <Navigate to="/" />} />
-        <Route path="/reset-password" element={ !jwt || !token ? <ResetPasswordPage/> : <Navigate to="/" />} />
+        <Route path="/login" element={ !jwt ? <LoginPage/> : <Navigate to="/" />} />
+        <Route path="/signup" element={ !jwt ? <SignupPage/> : <Navigate to="/" />} />
+        <Route path="/confirm-email" element={ !jwt ? <ConfirmEmailPage/> : <Navigate to="/" />} />
+        <Route path="/reset-password" element={ !jwt ? <ResetPasswordPage/> : <Navigate to="/" />} />
 
         {/* Auth Routes */}
 
         {/* Verified Routes */}
 
-        <Route path="/ca" element={ jwt || token ? <CAPage/> : <Navigate to="/" />} />
-        <Route path="/gce" element={ jwt || token ? <GCEPage/> : <Navigate to="/" />} />
-        <Route path="/notes" element={ jwt || token ? <NotesPage/> : <Navigate to="/" />} />
-        <Route path="/profile" element={ jwt || token ? <ProfilePage/> : <Navigate to="/" />} />
-        <Route path="/results" element={ jwt || token ? <ResultsPage/> : <Navigate to="/" />} />
-        <Route path="/revision" element={ jwt || token ? <RevisionPage/> : <Navigate to="/" />} />
+        <Route path="/ca" element={ jwt ? <CAPage/> : <Navigate to="/" />} />
+        <Route path="/gce" element={ jwt ? <GCEPage/> : <Navigate to="/" />} />
+        <Route path="/notes" element={ jwt ? <NotesPage/> : <Navigate to="/" />} />
+        <Route path="/profile" element={ jwt ? <ProfilePage/> : <Navigate to="/" />} />
+        <Route path="/results" element={ jwt ? <ResultsPage/> : <Navigate to="/" />} />
+        <Route path="/revision" element={ jwt ? <RevisionPage/> : <Navigate to="/" />} />
 
         {/* Verified Routes */}
 
