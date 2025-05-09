@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { getAuthUser } from '../../features/users/userSlice';
@@ -10,6 +10,25 @@ function RevisionPage() {
   const authUser = useSelector(getAuthUser);
   
     const questions = useSelector(getAllQuestions).filter(question => question.fileGenre === "revision" &&  question.field === authUser.fieldOfStudy);
+
+    const [revision, setRevision] = useState([]);
+
+    const [message, setMessage] = useState("");
+    
+    const paymentUrl = "https://link.tranzak.net/SoYC137shxfTTydx6";
+
+    useEffect(() => {
+        if(authUser.amount === 0) {
+          setRevision([]);
+          setMessage("Pay tuition fees to have access to all files");
+        } else if(authUser.amount > 0 && authUser.amount <= 30000) {
+          setRevision(questions.slice(0, 1));
+          setMessage("Complete tuition fees to get access to all files");
+        } else {
+          setRevision(questions.slice(0, questions.length));
+          setMessage("");
+        }
+      }, [questions, authUser]);
 
   return (
     <div id="ca" className="page wb-page">
@@ -44,17 +63,17 @@ function RevisionPage() {
             <ul className="file-list" style={{listStyle: "none",padding: 0}}>
                     
                 
-                {questions.map((question) => (
+                {revision.map((question) => (
                                   <QuestionBox key={question._id} question={question} />
                                 ))}
 
 
                 
                     <span className="file-name">
-                        <Link to="" style={{color: "blue", textDecoration:"underline"}}>
-                          {/* message */}
-                        </Link>
-                    </span>
+                                            {message && <Link to={paymentUrl} style={{color: "blue", textDecoration:"underline"}}>
+                                              {message}
+                                            </Link>}
+                                        </span>
                 
             </ul>
         </div>

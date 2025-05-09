@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { getAuthUser } from '../../features/users/userSlice';
@@ -10,6 +10,12 @@ export default function GCEPage() {
   const authUser = useSelector(getAuthUser);
   
     const questions = useSelector(getAllQuestions).filter(question => question.fileGenre === "gce" &&  question.field === authUser.fieldOfStudy);
+
+    const [gce, setGCE] = useState([]);
+
+    useEffect(() => {
+        setGCE(questions);
+      }, [questions]);
 
   return (
     <div id="ca" className="page wb-page">
@@ -44,17 +50,10 @@ export default function GCEPage() {
             <ul className="file-list" style={{listStyle: "none",padding: 0}}>
                     
                 
-            {questions.map((question) => (
+            {gce.map((question) => (
                   <QuestionBox key={question._id} question={question} />
                 ))}
 
-
-                
-                    <span className="file-name">
-                        <Link to="" style={{color: "blue", textDecoration:"underline"}}>
-                          {/* message */}
-                        </Link>
-                    </span>
                 
             </ul>
         </div>

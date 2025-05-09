@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { getAllQuestions } from '../../features/questions/questionSlice';
@@ -11,7 +11,26 @@ function CAPage() {
 
   const questions = useSelector(getAllQuestions).filter(question => question.fileGenre === "ca" &&  question.field === authUser.fieldOfStudy);
 
-  console.log(questions);
+  const [cas, setCas] = useState([]);
+  const [message, setMessage] = useState("");
+
+  const paymentUrl = "https://link.tranzak.net/SoYC137shxfTTydx6";
+
+  useEffect(() => {
+    if(authUser.amount === 0 && authUser.amount <= 10000) {
+      setCas(questions.slice(0, 2));
+      setMessage("Pay tuition fees to have access to all files");
+    } else if(authUser.amount > 10000 && authUser.amount <= 20000) {
+      setCas(questions.slice(0, 3));
+      setMessage("Complete tuition fees to get access to all files");
+    } else if(authUser.amount > 20000 && authUser.amount <= 30000) {
+      setCas(questions.slice(0, 4));
+      setMessage("Complete tuition fees to get access to all files");
+    } else {
+      setCas(questions.slice(0, questions.length));
+      setMessage("");
+    }
+  }, [questions, authUser?.amount]);
 
   return (
     <div id="ca" className="page wb-page">
@@ -46,16 +65,16 @@ function CAPage() {
             <ul className="file-list" style={{listStyle: "none",padding: 0}}>
                     
                 
-                {questions.map((question) => (
+                {cas.map((question) => (
                   <QuestionBox key={question._id} question={question} />
                 ))}
 
 
                 
                     <span className="file-name">
-                        <Link to="" style={{color: "blue", textDecoration:"underline"}}>
-                          {/* message */}
-                        </Link>
+                        {message && <Link to={paymentUrl} style={{color: "blue", textDecoration:"underline"}}>
+                          {message}
+                        </Link>}
                     </span>
                 
             </ul>
