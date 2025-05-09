@@ -47,9 +47,9 @@ const registerUser = async(req, res) => {
             });
             await res.cookie("jwt", token, {
                 maxAge: 24 * 60 * 60 * 1000,
-                // httpOnly: true,
+                httpOnly: false,
                 sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-                secure: process.env.NODE_ENV !== "development",
+                secure: true,
                 // domain: "https://the-cure-foundation.onrender.com",
                 // path: "/"
             });
