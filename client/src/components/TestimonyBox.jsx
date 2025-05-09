@@ -4,7 +4,11 @@ import { getImageById } from '../features/images/imageSlice';
 
 function TestimonyBox({ testimony }) {
 
-    const image = useSelector((state) => getImageById(state, testimony.image));
+    const image = useSelector((state) => 
+        testimony && testimony.image 
+          ? getImageById(state, testimony.image) 
+          : null
+      );
 
   return (                      
         <div className="col-lg-4 col-md-4 col-sm-12 ">
@@ -28,7 +32,7 @@ function TestimonyBox({ testimony }) {
                                                  
             <div className="testimonial-bio ">
                 <div className="imageWidget  ">
-                    <img className="lazyload testimonial-bio-img"  />
+                    <img className="lazyload testimonial-bio-img" src={image.image} />
                 </div>
     
                 <div className="richTextWidget  ">
