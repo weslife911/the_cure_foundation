@@ -30,6 +30,8 @@ function App() {
 
   const jwt = Cookies.get("jwt");
 
+  console.log(jwt)
+
   const userStatus = useSelector(getUserStatus);
   const countryStatus = useSelector(getCountryStatus);
   const imageStatus  = useSelector(getImageStatus);
