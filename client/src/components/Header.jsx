@@ -8,6 +8,7 @@ import Loader from "./Loader";
 function Header() {
 
     const jwt = Cookies.get("jwt");
+    const token = localStorage.getItem("token");
 
     const dispatch = useDispatch();
 
@@ -49,7 +50,7 @@ function Header() {
                             </li>  
                                                                 
                 
-                            {!jwt ? <>
+                            {!jwt || !token ? <>
                                 <li className="dropdown">
                                 <Link to="/about" pageslug="about" linktype="Page" className="siteNavLink">
                                     ABOUT
