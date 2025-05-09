@@ -1,12 +1,11 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { logout } from '../features/users/userSlice';
 
 function Header() {
 
-    const jwt = Cookies.get("jwt");
+    const token = localStorage.getItem("token");
 
     const dispatch = useDispatch();
 
@@ -42,7 +41,7 @@ function Header() {
                             </li>  
                                                                 
                 
-                            {!jwt ? <>
+                            {!token ? <>
                                 <li className="dropdown">
                                 <Link to="/about" pageslug="about" linktype="Page" className="siteNavLink">
                                     ABOUT
