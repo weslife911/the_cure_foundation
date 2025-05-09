@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { getAuthUser } from '../../features/users/userSlice';
@@ -11,28 +11,30 @@ function NotesPage() {
   
     const questions = useSelector(getAllQuestions).filter(question => question.fileGenre === "notes" &&  question.field === authUser.fieldOfStudy);
 
-    const [notes, setNotes] = useState([]);
-    const [message, setMessage] = useState("");
-
     const paymentUrl = "https://link.tranzak.net/SoYC137shxfTTydx6";
 
-    useEffect(() => {
-        if(authUser.amount === 0) {
-          setNotes([]);
-          setMessage("Pay tuition fees to have access to all files");
-        } else if(authUser.amount > 0 && authUser.amount <= 10000) {
-          setNotes(questions.slice(0, 1));
-          setMessage("Complete tuition fees to get access to all files");
-        } else if(authUser.amount > 10000 && authUser.amount <= 20000) {
-          setNotes(questions.slice(0, 3));
-          setMessage("Complete tuition fees to get access to all files");
-        } else if(authUser.amount > 20000 && authUser.amount <= 30000) {
-          setNotes(questions.slice(0, 5));
-          setMessage("Complete tuition fees to get access to all files");
-        } else {
-          setNotes(questions.slice(0, questions.length));
-          setMessage("");
+    const { visibleQuestions, accessMessage } = useMemo(() => {
+        if (!questions || !authUser) return { visibleQuestions: [], accessMessage: "" };
+      
+        const amount = authUser.amount || 0;
+        let limit = questions.length;
+        let message = "";
+      
+        if (amount === 0) {
+          limit = 2;
+          message = "Pay tuition fees to have access to all files";
+        } else if (amount <= 10000) {
+          limit = 2;
+        } else if (amount <= 20000) {
+          limit = 3;
+        } else if (amount <= 30000) {
+          limit = 4;
         }
+      
+        return {
+          visibleQuestions: questions.slice(0, limit),
+          accessMessage: message || "Complete tuition fees to get access to all files"
+        };
       }, [questions, authUser]);
 
   return (
@@ -68,15 +70,15 @@ function NotesPage() {
             <ul className="file-list" style={{listStyle: "none",padding: 0}}>
                     
                 
-            {notes.map((question) => (
+            {visibleQuestions.map((question) => (
                   <QuestionBox key={question._id} question={question} />
                 ))}
 
 
                 
                     <span className="file-name">
-                                            {message && <Link to={paymentUrl} style={{color: "blue", textDecoration:"underline"}}>
-                                              {message}
+                                            {accessMessage && <Link to={paymentUrl} style={{color: "blue", textDecoration:"underline"}}>
+                                              {accessMessage}
                                             </Link>}
                                         </span>
                 

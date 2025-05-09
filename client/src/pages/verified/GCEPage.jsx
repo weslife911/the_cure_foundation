@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { getAuthUser } from '../../features/users/userSlice';
@@ -11,11 +11,29 @@ export default function GCEPage() {
   
     const questions = useSelector(getAllQuestions).filter(question => question.fileGenre === "gce" &&  question.field === authUser.fieldOfStudy);
 
-    const [gce, setGCE] = useState([]);
-
-    useEffect(() => {
-        setGCE(questions);
-      }, [questions]);
+     const { visibleQuestions, accessMessage } = useMemo(() => {
+        if (!questions || !authUser) return { visibleQuestions: [], accessMessage: "" };
+      
+        const amount = authUser.amount || 0;
+        let limit = questions.length;
+        let message = "";
+      
+        if (amount === 0) {
+          limit = 2;
+          message = "Pay tuition fees to have access to all files";
+        } else if (amount <= 10000) {
+          limit = 2;
+        } else if (amount <= 20000) {
+          limit = 3;
+        } else if (amount <= 30000) {
+          limit = 4;
+        }
+      
+        return {
+          visibleQuestions: questions.slice(0, limit),
+          accessMessage: message || "Complete tuition fees to get access to all files"
+        };
+      }, [questions, authUser]);
 
   return (
     <div id="ca" className="page wb-page">
@@ -50,7 +68,7 @@ export default function GCEPage() {
             <ul className="file-list" style={{listStyle: "none",padding: 0}}>
                     
                 
-            {gce.map((question) => (
+            {visibleQuestions.map((question) => (
                   <QuestionBox key={question._id} question={question} />
                 ))}
 

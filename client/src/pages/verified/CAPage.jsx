@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { getAllQuestions } from '../../features/questions/questionSlice';
@@ -11,26 +11,32 @@ function CAPage() {
 
   const questions = useSelector(getAllQuestions).filter(question => question.fileGenre === "ca" &&  question.field === authUser.fieldOfStudy);
 
-  const [cas, setCas] = useState([]);
-  const [message, setMessage] = useState("");
-
   const paymentUrl = "https://link.tranzak.net/SoYC137shxfTTydx6";
 
-  useEffect(() => {
-    if(authUser.amount === 0 && authUser.amount <= 10000) {
-      setCas(questions.slice(0, 2));
-      setMessage("Pay tuition fees to have access to all files");
-    } else if(authUser.amount > 10000 && authUser.amount <= 20000) {
-      setCas(questions.slice(0, 3));
-      setMessage("Complete tuition fees to get access to all files");
-    } else if(authUser.amount > 20000 && authUser.amount <= 30000) {
-      setCas(questions.slice(0, 4));
-      setMessage("Complete tuition fees to get access to all files");
-    } else {
-      setCas(questions.slice(0, questions.length));
-      setMessage("");
+  const { visibleQuestions, accessMessage } = useMemo(() => {
+    if (!questions || !authUser) return { visibleQuestions: [], accessMessage: "" };
+  
+    const amount = authUser.amount || 0;
+    let limit = questions.length;
+    let message = "";
+  
+    if (amount === 0) {
+      limit = 2;
+      message = "Pay tuition fees to have access to all files";
+    } else if (amount <= 10000) {
+      limit = 2;
+    } else if (amount <= 20000) {
+      limit = 3;
+    } else if (amount <= 30000) {
+      limit = 4;
     }
-  }, [questions, authUser?.amount]);
+  
+    return {
+      visibleQuestions: questions.slice(0, limit),
+      accessMessage: message || "Complete tuition fees to get access to all files"
+    };
+  }, [questions, authUser]);
+
 
   return (
     <div id="ca" className="page wb-page">
@@ -65,15 +71,15 @@ function CAPage() {
             <ul className="file-list" style={{listStyle: "none",padding: 0}}>
                     
                 
-                {cas.map((question) => (
+                {visibleQuestions.map((question) => (
                   <QuestionBox key={question._id} question={question} />
                 ))}
 
 
                 
                     <span className="file-name">
-                        {message && <Link to={paymentUrl} style={{color: "blue", textDecoration:"underline"}}>
-                          {message}
+                        {accessMessage && <Link to={paymentUrl} style={{color: "blue", textDecoration:"underline"}}>
+                          {accessMessage}
                         </Link>}
                     </span>
                 
