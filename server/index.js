@@ -41,6 +41,14 @@ app.use("/api/result", resultRoutes);
 app.use("/api/image", imageRoutes);
 app.use("/api/testimony", testimonyRoutes);
 
+app.get("/health", () => {
+  res.status(200).json({
+    status: "healthy",
+    uptime: process.uptime(),
+    timestamp: Date.now()
+  });
+});
+
 const PORT = Number(process.env.PORT) || 8080;
 
 connectToDB();
