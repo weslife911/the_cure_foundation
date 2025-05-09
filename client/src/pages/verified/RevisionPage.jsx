@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { getAuthUser } from '../../features/users/userSlice';
 import { getAllQuestions } from '../../features/questions/questionSlice';
+import QuestionBox from '../../components/QuestionBox';
 
 function RevisionPage() {
 
   const authUser = useSelector(getAuthUser);
   
-    const questions = useSelector(getAllQuestions).filter(question => question.fileGenre === "ca" &&  question.field === authUser.fieldOfStudy);
+    const questions = useSelector(getAllQuestions).filter(question => question.fileGenre === "revision" &&  question.field === authUser.fieldOfStudy);
 
   return (
     <div id="ca" className="page wb-page">

@@ -8,7 +8,7 @@ const initialState = {
 
 export const fetchQuestions = createAsyncThunk("questions/fetchQuestions", async() => {
     try {
-        const questions = await axiosInstance.get("/question/get-questions");
+        const questions = await axiosInstance.get("/question/questions");
         return questions.data;
     } catch(e) {
         return e.message;
