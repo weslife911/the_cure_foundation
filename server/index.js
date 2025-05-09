@@ -41,9 +41,9 @@ app.use("/api/result", resultRoutes);
 app.use("/api/image", imageRoutes);
 app.use("/api/testimony", testimonyRoutes);
 
-app.get("/health", () => {
+app.get('/health', (req, res) => {
   res.status(200).json({
-    status: "healthy",
+    status: 'healthy',
     uptime: process.uptime(),
     timestamp: Date.now()
   });
