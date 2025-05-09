@@ -37,14 +37,14 @@ const addQuestions = async(req, res) => {
 const getQuestions = async(req, res) => {
     try {
 
-        const questions = Question.find({});
+        const questions = await Question.find({});
 
         if(!questions) return res.json({
             success: false,
             message: "There are no questions available in the database!"
         });
 
-        return res.json(questions);
+        return res.status(200).json(questions);
 
     } catch(e) {
         return res.json({
