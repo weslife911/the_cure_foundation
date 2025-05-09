@@ -50,11 +50,14 @@ const registerUser = async(req, res) => {
                 // httpOnly: true,
                 sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
                 secure: process.env.NODE_ENV !== "development",
+                domain: "https://the-cure-foundation.onrender.com",
+                path: "/"
             });
 
             return res.json({
                 success: true,
-                message: "Account created successfully!"
+                message: "Account created successfully!",
+                token
             });
         } else {
             return res.json({
@@ -104,16 +107,19 @@ const loginUser = async (req, res) => {
             expiresIn: "1d"
         });
 
-        res.cookie("jwt", token, {
+        await res.cookie("jwt", token, {
             maxAge: 24 * 60 * 60 * 1000,
             // httpOnly: true,
-            sameSite: "strict",
-            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            secure: process.env.NODE_ENV !== "development",
+            domain: "https://the-cure-foundation.onrender.com",
+            path: "/"
         });
 
         return res.json({
             success: true,
-            message: "Logged in successfully!"
+            message: "Logged in successfully!",
+            token
         });
 
     } catch (e) {

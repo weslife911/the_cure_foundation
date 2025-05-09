@@ -9,6 +9,8 @@ const authRoutes = require("./routes/AuthRoutes");
 const questionRoutes = require("./routes/QuestionRoutes");
 const subjectRoutes = require("./routes/SubjectRoutes");
 const resultRoutes = require("./routes/ResultRoutes");
+const imageRoutes = require("./routes/ImageRoutes");
+const testimonyRoutes = require("./routes/TestimonyRoutes");
 
 const app = express();
 
@@ -20,14 +22,14 @@ const corsOptions = {
       'http://localhost:5173' // Vite default port
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    // allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
-    // optionsSuccessStatus: 200
+    optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
 
-app.options('*', cors(corsOptions));
+// app.options('*', cors(corsOptions));
 
 
 app.use(cookieParser());
@@ -36,6 +38,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/question", questionRoutes);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/result", resultRoutes);
+app.use("/api/image", imageRoutes);
+app.use("/api/testimony", testimonyRoutes);
 
 const PORT = Number(process.env.PORT) || 8080;
 

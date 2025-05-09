@@ -1,6 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { getImages } from '../../features/images/imageSlice'
+import ActivityBox from '../../components/ActivityBox';
 
 function ActivitiesPage() {
+
+  const images = useSelector(getImages).filter(image => image.field === "activity");
+
   return (
     <div id="activities" className="page wb-page">
                                         <style id="sectionStyle-13314460">
@@ -28,14 +34,10 @@ function ActivitiesPage() {
 
             <ul className="imageListsWidget imgs-gallery borderGallery ">
                     
+                {images.map((image) => (
+                  <ActivityBox key={image._id} image={image} />
+                ))}
                 
-                <li className="js_image_gallary">
-                    <figure className="effect-milo"><img id="image1" className="lazyload"  width="374" height="234"/>
-                        <figcaption className="">
-                            
-                        </figcaption>
-                    </figure>
-                </li>
 
                     </ul>
                 </div>

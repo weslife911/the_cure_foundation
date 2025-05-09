@@ -66,6 +66,7 @@ export const userSlice = createSlice({
         .addCase(signupUser.fulfilled, (state, action) => {
             if(action.payload.success === true) {
                 state.hasSignedUp = true;
+                localStorage.setItem("token", action.payload.token);
                 toast.success(action.payload.message);
             } else {
                 toast.error(action.payload.message);
@@ -77,6 +78,7 @@ export const userSlice = createSlice({
         .addCase(loginUser.fulfilled, (state, action) => {
             if(action.payload.success === true) {
                 state.isLoggedIn = true;
+                localStorage.setItem("token", action.payload.token);
                 toast.success(action.payload.message);
             } else {
                 toast.error(action.payload.message);
@@ -87,6 +89,7 @@ export const userSlice = createSlice({
         })
         .addCase(logout.fulfilled, (state, action) => {
             if(action.payload.success === true) {
+                localStorage.removeItem("token");
                 toast.success(action.payload.message);
             } else {
                 toast.error(action.payload.message);

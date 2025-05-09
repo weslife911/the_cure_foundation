@@ -5,9 +5,12 @@ import { Provider } from "react-redux";
 import { store } from './app/store.js';
 import { fetchCountries } from './features/countries/countrySlice.js';
 import { fetchAuthUser } from './features/users/userSlice.js';
+import { fetchImages, fetchTestimonies } from './features/images/imageSlice.js';
 
 store.dispatch(fetchCountries());
 store.dispatch(fetchAuthUser());
+store.dispatch(fetchImages());
+store.dispatch(fetchTestimonies());
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
