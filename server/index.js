@@ -2,7 +2,9 @@ require("dotenv").config();
 
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 const cors = require("cors");
+const nodemailer = require('nodemailer');
 const connectToDB = require("./database/db");
 
 const authRoutes = require("./routes/AuthRoutes");
@@ -18,7 +20,8 @@ app.use(express.json());
 
 const corsOptions = {
     origin: [
-      'https://the-cure-foundation-1.onrender.com', // Your Vercel frontend
+      'https://the-cure-foundation-1.onrender.com', // Your Render frontend
+      "https://the-cure-foundation.vercel.app", // Your Vercel frontend
       'http://localhost:5173' // Vite default port
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -29,10 +32,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// app.options('*', cors(corsOptions));
-
-
 app.use(cookieParser());
+app.use(bodyParser.json())
 
 app.use("/api/auth", authRoutes);
 app.use("/api/question", questionRoutes);
