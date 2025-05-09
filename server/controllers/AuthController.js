@@ -108,11 +108,11 @@ const loginUser = async (req, res) => {
 
         await res.cookie("jwt", token, {
             maxAge: 24 * 60 * 60 * 1000,
-            httpOnly: false,
+            httpOnly: true,
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
             secure: true,
-            // domain: "https://the-cure-foundation.onrender.com",
-            // path: "/"
+            domain: "https://the-cure-foundation.onrender.com",
+            path: "/"
         });
 
         return res.json({
