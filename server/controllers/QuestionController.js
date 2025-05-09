@@ -44,7 +44,7 @@ const getQuestions = async(req, res) => {
             message: "There are no questions available in the database!"
         });
 
-        return res.status(200).json(questions);
+        return res.json(questions);
 
     } catch(e) {
         return res.json({
