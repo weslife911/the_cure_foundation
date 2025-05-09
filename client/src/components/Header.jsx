@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { logout } from '../features/users/userSlice';
-import Loader from "./Loader";
 
 function Header() {
 

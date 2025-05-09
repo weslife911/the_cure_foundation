@@ -5,7 +5,9 @@ import { getAllQuestions } from '../../features/questions/questionSlice';
 
 function CAPage() {
 
-  const questions = useSelector(getAllQuestions).filter(question => question.field === "ca");
+  const questions = useSelector(getAllQuestions);
+
+  
 
   console.log(questions);
 

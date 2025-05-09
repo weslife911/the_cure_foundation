@@ -36,8 +36,6 @@ function App() {
   const imageStatus  = useSelector(getImageStatus);
   const questionStatus = useSelector(getQuestionStatus);
 
-  console.log(userStatus, countryStatus, imageStatus, questionStatus);
-
   if(userStatus === "pending" || countryStatus === "pending" || imageStatus === "pending" || questionStatus === "pending") return <div className="spinner-border" role="status">
   <span className="sr-only">Loading...</span>
 </div>
