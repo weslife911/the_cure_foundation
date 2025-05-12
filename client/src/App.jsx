@@ -24,6 +24,9 @@ import { getUserStatus } from "./features/users/userSlice";
 import { getCountryStatus } from "./features/countries/countrySlice";
 import { getImageStatus } from "./features/images/imageSlice";
 import { getQuestionStatus } from "./features/questions/questionSlice";
+import Loader from "./components/Loader/Loader";
+import { getResultStatus } from "./features/results/resultSlice";
+import { getSubjectStatus } from "./features/subjects/subjectSlice";
 
 function App() {
 
@@ -33,12 +36,16 @@ function App() {
   const countryStatus = useSelector(getCountryStatus);
   const imageStatus  = useSelector(getImageStatus);
   const questionStatus = useSelector(getQuestionStatus);
+  const resultStatus = useSelector(getResultStatus);
+  const subjectStatus = useSelector(getSubjectStatus);
 
-  if(userStatus === "pending" || countryStatus === "pending" || imageStatus === "pending" || questionStatus === "pending") return <div className="d-flex justify-content-center">
-    <div className="spinner-border" role="status">
-  <span className="sr-only">Loading...</span>
-</div>
-  </div>
+  const loading = userStatus === "pending" || countryStatus === "pending" || imageStatus === "pending" || questionStatus === "pending" || resultStatus === "pending" || subjectStatus === "pending";
+
+  if(loading) {
+    return (
+      <Loader/>
+    )
+  }
 
   return (
     <>

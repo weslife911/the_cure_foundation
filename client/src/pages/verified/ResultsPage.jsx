@@ -1,7 +1,20 @@
 import React from 'react'
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getUserResults } from '../../features/results/resultSlice';
+import { getAuthUser } from '../../features/users/userSlice';
+import ResultRow from '../../components/ResultRow';
 
 function ResultsPage() {
+
+    const results = useSelector(getUserResults);
+
+    const authUser = useSelector(getAuthUser);
+
+    const date = new Date(authUser?.createdAt);
+
+    const formattedDate = `${date.getDate()}, ${date.toLocaleString('default', { month: 'short' })}, ${date.getFullYear()}`;
+
   return (
     <div id="ca" className="page wb-page">
                                     <style id="sectionStyle-10946059">
@@ -30,10 +43,10 @@ function ResultsPage() {
         <div style={{display: "flex", justifyContent:"space-around", marginTop:"30px"}}>
             <div>
                 <p>
-                    {/* NAME: NAME */}
+                    NAME: {authUser?.name}
                 </p>
                 <p>
-                    {/* FIELD: FIELD */}
+                    FIELD: {authUser?.fieldOfStudy}
                 </p>
             </div>
             <div>
@@ -41,7 +54,7 @@ function ResultsPage() {
                     THE CURE FOUNDATION
                 </p>
                 <p>
-                    {/* Printed Date: Date */}
+                    Printed Date: {formattedDate}
                 </p>
             </div>
         </div>
@@ -64,16 +77,11 @@ function ResultsPage() {
             
             <tbody>
 
-                <tr>
-                    <td>
-                        {/* Subject */}
-                    </td>
-                    <td>
-                        {/* Score */}
-                    </td>
-                </tr>
+                {results.map((result) => (
+                    <ResultRow key={result._id} result={result} />
+                ))}
 
-                <h2 className="mb-4" style={{padding: "30px"}}>Results will soon be available</h2>
+                {/* <span className="mb-4" style={{padding: "30px"}}>Results will soon be available</span> */}
 
             </tbody>
         </table>

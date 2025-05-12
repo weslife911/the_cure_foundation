@@ -3,8 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthUser, updateProfile } from '../../features/users/userSlice';
-import { getAllCountries, getCountryStatus } from '../../features/countries/countrySlice';
-import Loader from '../../components/Loader';
+import { getAllCountries } from '../../features/countries/countrySlice';
 
 function ProfilePage() {
 
@@ -36,11 +35,7 @@ function ProfilePage() {
     });
 
     const countries = useSelector(getAllCountries);
-    const countryStatus = useSelector(getCountryStatus);
-    
-      if(countryStatus === "idle") return <>
-        <Loader/>
-      </>
+  
 
   return (
     <div id="login" className="page wb-page">

@@ -3,9 +3,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCountries, getCountryStatus } from '../../features/countries/countrySlice';
-import Loader from "../../components/Loader";
-import { getUserStatus, hasSignedUp, signupUser } from '../../features/users/userSlice';
+import { getAllCountries } from '../../features/countries/countrySlice';
+import { hasSignedUp, signupUser } from '../../features/users/userSlice';
 
 function SignupPage() {
 
@@ -51,19 +50,11 @@ function SignupPage() {
   });
 
   const countries = useSelector(getAllCountries);
-  const countryStatus = useSelector(getCountryStatus);
-  const userStatus = useSelector(getUserStatus);
-
-  // if(countryStatus === "pending" || userStatus === "pending") return <>
-  //   <Loader/>
-  // </>
 
   return (
     <div id="login" className="page wb-page">
                                             <style id="sectionStyle-10945347">
-            {/* #section-10945347:before {
-             background-color:#1b1e25;opacity:0.4;content:""; position:absolute; top:0%; display:block; left:0%; right:0%; bottom:0%; width:100%; height:100%;
-            } */}
+          
         </style><section id="section-10945347" className="
                     widget-section dynamic-form-widget sec-padding-xl  theme-dark-color-11                 " style={{background:"#1b1e25 url('https://iili.io/32fQHaR.jpg')  no-repeat center center",position: "relative", overflow: "hidden", backgroundSize: "cover",marginTop:"0px"}}><div className="container boxWidget">
                                         <div className="row centered-row ">

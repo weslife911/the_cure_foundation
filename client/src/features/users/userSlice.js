@@ -55,11 +55,27 @@ export const fetchAuthUser = createAsyncThunk("users/fetchAuthUser", async() => 
     }
 });
 
+export const fetchAllUsers = createAsyncThunk("users/fetchAllUser", async() => {
+    try {
+        const response = await axiosInstance.get("/auth/users");
+        return response.data;
+    } catch(e) {
+        return e.message;
+    }
+});
+
 export const userSlice = createSlice({
     name: "users",
     initialState,
     extraReducers(builder) {
         builder
+        .addCase(fetchAllUsers.pending, (state) => {
+            state.status = "pending";
+        })
+        .addCase(fetchAllUsers.fulfilled, (state, action) => {
+            state.status = "fulfilled";
+            state.users = action.payload;
+        })
         .addCase(signupUser.pending, (state) => {
             state.status = "pending";
         })
@@ -119,6 +135,7 @@ export const userSlice = createSlice({
     }
 });
 
+export const getAllUsers = (state) => state.users.users;
 export const getUserStatus = (state) => state.users.status;
 export const hasSignedUp = (state) => state.users.hasSignedUp;
 export const isLoggedIn = (state) => state.users.isLoggedIn;

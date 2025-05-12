@@ -4,7 +4,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const nodemailer = require('nodemailer');
+
 const connectToDB = require("./database/db");
 
 const authRoutes = require("./routes/AuthRoutes");
@@ -13,6 +13,7 @@ const subjectRoutes = require("./routes/SubjectRoutes");
 const resultRoutes = require("./routes/ResultRoutes");
 const imageRoutes = require("./routes/ImageRoutes");
 const testimonyRoutes = require("./routes/TestimonyRoutes");
+const emailRoutes = require("./routes/EmailRoutes");
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use("/api/subject", subjectRoutes);
 app.use("/api/result", resultRoutes);
 app.use("/api/image", imageRoutes);
 app.use("/api/testimony", testimonyRoutes);
+app.use("/api/email", emailRoutes);
 
 app.get('/health', (req, res) => {
   res.status(200).json({
