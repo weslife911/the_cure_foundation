@@ -15,11 +15,18 @@ const sendEmail = async(req, res) => {
         const mailOptions = {
             from: email,
             to: process.env.GMAIL_USER,
-            text: message
+            subject: `New message from ${email}`,
+            text: message,
+            html: `
+                <h3>New Contact Form Submission</h3>
+                <p><strong>From:</strong> (${email})</p>
+                <p><strong>Message:</strong></p>
+                <p>${message}</p>
+            `
         };
 
         await transporter.sendMail(mailOptions);
-        res.status(200).json({
+        return res.json({
             success: true,
             message: 'Email sent successfully'
         });

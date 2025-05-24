@@ -34,22 +34,28 @@ const addSubject = async(req, res) => {
     }
 };
 
-const getSubjects = async(req, res) => {
+const getSubjects = async (req, res) => {
     try {
-
         const subjects = await Subject.find({});
 
-        if(!subjects) return res.json({
-            success: false,
-            message: "There are no subjects available!"
-        });
+        if (!subjects || subjects.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No subjects found",
+                data: []
+            });
+        }
 
-        return res.json(subjects);
+        return res.status(200).json(
+            subjects
+        );
 
-    } catch(e) {
-        return res.json({
+    } catch (e) {
+        console.error("Error fetching subjects:", e);
+        return res.status(500).json({
             success: false,
-            message: e.message
+            message: "Failed to retrieve subjects",
+            error: process.env.NODE_ENV === 'development' ? e.message : undefined
         });
     }
 };

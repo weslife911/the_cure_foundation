@@ -7,9 +7,11 @@ import ResultRow from '../../components/ResultRow';
 
 function ResultsPage() {
 
-    const results = useSelector(getUserResults);
-
     const authUser = useSelector(getAuthUser);
+
+    const results = useSelector(getUserResults).filter(result => result.userId === authUser?._id);
+
+    console.log(results)
 
     const date = new Date(authUser?.createdAt);
 

@@ -4,8 +4,8 @@ import { getAuthUser } from '../../features/users/userSlice';
 import { useSelector } from 'react-redux';
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { axiosInstance } from '../../utils/axios';
 import toast from 'react-hot-toast';
+import { axiosInstance } from '../../utils/axios';
 
 function ContactPage() {
 
@@ -21,10 +21,11 @@ function ContactPage() {
       message: Yup.string().required("Message is required"),
     }),
     onSubmit: async(values) => {
-      const response = await axiosInstance.post("/email/send-email", values);
+      const response = await axiosInstance("/email/send-email", values);
       if(response.data.success) {
         toast.success(response.data.message);
       }
+      console.log(response.data);
       return response.data;
     }
   });

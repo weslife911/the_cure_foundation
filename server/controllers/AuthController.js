@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const { genSalt, hash, compare } = require("bcryptjs");
 const { sign } = require("jsonwebtoken");
+const { transporter } = require("../utils/transporter");
 
 require("dotenv").config();
 
@@ -50,8 +51,37 @@ const registerUser = async(req, res) => {
                 httpOnly: true,
                 sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
                 secure: true,
-                // domain: "https://the-cure-foundation.onrender.com",
-                // path: "/"
+            });
+
+            const html = `
+                <h1>
+                    Welcome to THE CURE FOUNDATION!  
+                </h1>
+
+                <p>
+                    Dear ${newUser.name}, 
+                </p> 
+
+                <p>
+                    Thank you for creating an account with "THE CURE FOUNDATION". We're thrilled to have you join our community dedicated to making a positive impact. Your support means the world to us, and together, we can drive meaningful change.  
+
+                    As a member, you'll receive updates on our initiatives, events, and opportunities to get involved. If you have any questions or need assistance, feel free to reach out to us at ${process.env.GMAIL_USER}.  
+
+                    Welcome aboard, and thank you for being part of THE CURE FOUNDATION!  
+                </p>
+
+                <p>
+                    Warm regards,  
+                    ${newUser.name}
+                    THE CURE FOUNDATION Team
+                </p>
+            `;
+
+            await transporter.sendMail({
+                from: process.env.GMAIL_USER,
+                to: newUser.email,
+                subject: "Welcome email",
+                html: html
             });
 
             return res.json({
@@ -112,8 +142,6 @@ const loginUser = async (req, res) => {
             httpOnly: true,
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
             secure: true,
-            // domain: "https://the-cure-foundation.onrender.com",
-            // path: "/"
         });
 
         return res.json({
@@ -138,7 +166,12 @@ const checkAuth = (req, res) => {
 
 const logout = async(req, res) => {
     try {
-        res.cookie("jwt", "", { maxAge: 0 });
+        await res.clearCookie("jwt", "", {
+            maxAge: 0,
+            httpOnly: true,
+            secure: true,
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+        });
         return res.json({
             success: true,
             message: "Logged out successfully"
@@ -194,46 +227,53 @@ const getUser = async(req, res) => {
     }
 };
 
-const updateProfile = async(req, res) => {
+const updateProfile = async (req, res) => {
     try {
-
         const { userId, name, fieldOfStudy, countryCode, phoneNumber } = req.body;
 
+        // Validate required fields first before database operations
+        if (!userId || !name || !fieldOfStudy || !countryCode || !phoneNumber) {
+            return res.status(400).json({
+                success: false,
+                message: "All fields are required!"
+            });
+        }
+
+        // Check if user exists
         const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User with given ID does not exist!"
+            });
+        }
 
-        if( !userId || !name || !fieldOfStudy || !countryCode || !phoneNumber) return res.json({
-            success: false,
-            message: "All fields are required!"
-        });
+        // Update user profile
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            {
+                $set: {
+                    name,
+                    fieldOfStudy,
+                    countryCode,
+                    phoneNumber
+                }
+            },
+            { new: true, runValidators: true } // Added runValidators to ensure updated data follows schema
+        );
 
-        if(!user) return res.json({
-            success: false,
-            message: "User with given ID does not exist!"
-        });
-
-        const updatedUser = await User.findByIdAndUpdate(userId, {
-            $set: {
-                name,
-                fieldOfStudy,
-                countryCode,
-                phoneNumber
-            }
-        }, { new: true });
-
-        if(!updatedUser) return res.json({
-            success: false,
-            message: "Profile was not updated successfully!"
-        });
-
-        return res.json({
+        return res.status(200).json({
             success: true,
-            message: "Profile updated successfully!"
+            message: "Profile updated successfully!",
+            user: updatedUser // Return the updated user data
         });
 
-    } catch(e) {
-        return res.json({
+    } catch (e) {
+        console.error("Profile update error:", e); // Log the error for debugging
+        return res.status(500).json({
             success: false,
-            message: e.message
+            message: "Internal server error",
+            error: process.env.NODE_ENV === 'development' ? e.message : undefined // Only show error details in development
         });
     }
 };
