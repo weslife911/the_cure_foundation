@@ -11,8 +11,6 @@ function ResultsPage() {
 
     const results = useSelector(getUserResults).filter(result => result.userId === authUser?._id);
 
-    console.log(results)
-
     const date = new Date(authUser?.createdAt);
 
     const formattedDate = `${date.getDate()}, ${date.toLocaleString('default', { month: 'short' })}, ${date.getFullYear()}`;
