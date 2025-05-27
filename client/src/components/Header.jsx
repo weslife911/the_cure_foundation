@@ -126,6 +126,7 @@ function Header() {
                             <li>
                                 <button type='button' onClick={() => {
                                     dispatch(logout());
+                                    localStorage.removeItem("token");
                                 }} style={{border: "none", backgroundColor:"red",
                                 color: "white", borderRadius: "3px", textTransform: "uppercase"}}>
                                     Logout

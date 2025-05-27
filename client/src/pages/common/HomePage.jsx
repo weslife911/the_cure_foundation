@@ -1,12 +1,19 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
+import { getAuthUser } from '../../features/users/userSlice';
+import { Link } from "react-router-dom"
 
 function HomePage() {
+
+  const authUser = useSelector(getAuthUser);
+
   return (
+
     <>
       <div id="home" className="page wb-page">
         <section id="section-10942673" className="wb-heroHeader dark" style={{backgroundImage: "url('https://iili.io/32fQxa4.jpg')", backgroundRepeat: "no-repeat",backgroundSize: "cover",backgroundPosition: "center center"}}><div className="wb-heroHeader-wrapper ">
                                                                             <div className="richTextWidget wb-heroHeader-content ">
-                                            <h2 style={{marginBottom:"10px"}} className="main-heading">Welcome to THE CURE</h2> <h6 style={{textTransform: "capitalize"}}>Preparing Students for Success</h6>
+                                            <h2 style={{marginBottom:"10px"}} className="main-heading">Welcome{authUser?.name ? `, ${authUser?.name}` : " to THE CURE"}</h2> <h6 style={{textTransform: "capitalize"}}>Preparing Students for Success</h6>
                                         </div>            
                                         
                                     </div>
@@ -60,7 +67,18 @@ function HomePage() {
                                                                         <div className="row custom-row ">
                                                                         <div className="col-lg-5 ">
                                                                         <div className="richTextWidget para-normal ">
-                                         <h1>Endless possibilities</h1> <p>Our dedicated team is committed to helping students develop the critical thinking, problem-solving, and communication skills necessary for future success.</p><ul style={{padding:"20px", marginBottom: "30px"}}><li style={{listStyle:"none",fontWeight: "600"}}><i className="fa fa-location-arrow custom-icons"></i>Academic Tutoring</li><li style={{listStyle:"none",fontWeight: "600"}}><i className="fa fa-location-arrow custom-icons"></i>Career Guidance</li><li style={{listStyle:"none",fontWeight: "600"}}><i className="fa fa-location-arrow custom-icons"></i>Personal Development Workshops</li></ul></div>            
+                                         <h1>Endless possibilities</h1> <p>Our dedicated team is committed to helping students develop the critical thinking, problem-solving, and communication skills necessary for future success.</p><ul style={{padding:"20px", marginBottom: "30px"}}><li style={{listStyle:"none",fontWeight: "600"}}><i className="fa fa-location-arrow custom-icons"></i>Academic Tutoring</li><li style={{listStyle:"none",fontWeight: "600"}}><i className="fa fa-location-arrow custom-icons"></i>Career Guidance</li><li style={{listStyle:"none",fontWeight: "600"}}><i className="fa fa-location-arrow custom-icons"></i>Personal Development Workshops</li>
+                                         
+                                         {authUser && <li style={{ listStyle:"none",fontWeight: "600" }}>
+                                          <div>
+                                            <h3>
+                                              Download your timetable to get started
+                                          </h3>
+                                          {authUser?.fieldOfStudy === "Engineering" ? <Link  className="btn btn-primary" to="https://mega.nz/file/N5RCzApB#Fyq4z_OzVbuxfin6znLlFPRuy3QxBE0P2puwgt_xxBQ">Download Timetable</Link> : <Link  className="btn btn-primary" to="https://mega.nz/file/ch4TwDSR#ioJnM7jlnWwQtZ_qMFsD8_Ff55zKA8BMmjUv_LMVjg8">Download Timetable</Link> }
+                                          </div>
+                                         </li>}
+                                         
+                                         </ul></div>            
                                         
                                     </div>
                                                 

@@ -107,8 +107,8 @@ export const userSlice = createSlice({
         })
         .addCase(logout.fulfilled, (state, action) => {
             state.status = "fulfilled";
+            localStorage.removeItem("token");
             if(action.payload.success === true) {
-                localStorage.removeItem("token");
                 toast.success(action.payload.message);
             } else {
                 toast.error(action.payload.message);
