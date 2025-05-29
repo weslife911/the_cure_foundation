@@ -15,9 +15,6 @@ const sendEmail = async(req, res) => {
         const mailOptions = {
             from: `"Sender Name" <${email}>`,
             to: process.env.GMAIL_USER,
-            replyTo: email,
-            subject: `New message from ${email}`,
-            text: message,
             html: `
                 <p><strong>From:</strong> (${email})</p>
                 <p><strong>Message:</strong></p>

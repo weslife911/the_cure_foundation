@@ -1,11 +1,15 @@
-import React from 'react'
-import { Link } from "react-router-dom";
+import React, { useRef } from 'react'
 import { useSelector } from "react-redux";
 import { getUserResults } from '../../features/results/resultSlice';
 import { getAuthUser } from '../../features/users/userSlice';
 import ResultRow from '../../components/ResultRow';
+import ResultsPDFPage from '../pdf/ResultsPDFPage';
+import { usePDF } from 'react-to-pdf';
 
 function ResultsPage() {
+
+    const pdfRef = useRef();
+    const { toPDF } = usePDF();
 
     const authUser = useSelector(getAuthUser);
 
@@ -14,6 +18,7 @@ function ResultsPage() {
     const date = new Date(authUser?.createdAt);
 
     const formattedDate = `${date.getDate()}, ${date.toLocaleString('default', { month: 'short' })}, ${date.getFullYear()}`;
+
 
   return (
     <div id="ca" className="page wb-page">
@@ -86,7 +91,10 @@ function ResultsPage() {
             </tbody>
         </table>
 
-        <Link to="" className="btn btn-primary" style={{color: "#fff", marginBottom: "30px"}}>Download</Link>
+        <button className="btn btn-primary" style={{color: "#fff", marginBottom: "30px"}} onClick={() => toPDF(pdfRef.current)} >Download</button>
+        <div ref={pdfRef} style={{ display: 'none' }}>
+        <ResultsPDFPage ref={pdfRef} />
+      </div>
     </div></div>
   )
 }
