@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthUser, updateProfile } from '../../features/users/userSlice';
 import { getAllCountries } from '../../features/countries/countrySlice';
+import Loader from "../../components/Loader/Loader"
 
 function ProfilePage() {
 
@@ -35,6 +36,10 @@ function ProfilePage() {
     });
 
     const countries = useSelector(getAllCountries);
+
+    if(!countries) return (
+    <Loader/>
+  );
   
 
   return (

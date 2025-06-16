@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { getAllQuestions } from '../../features/questions/questionSlice';
 import QuestionBox from '../../components/QuestionBox';
 import { getAuthUser } from '../../features/users/userSlice';
+import Loader from "../../components/Loader/Loader"
 
 function CAPage() {
 
@@ -36,6 +37,10 @@ function CAPage() {
       accessMessage: message || "Complete tuition fees to get access to all files"
     };
   }, [questions, authUser]);
+
+  if(!questions) return (
+    <Loader/>
+  );
 
 
   return (

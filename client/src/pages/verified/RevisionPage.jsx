@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { getAuthUser } from '../../features/users/userSlice';
 import { getAllQuestions } from '../../features/questions/questionSlice';
 import QuestionBox from '../../components/QuestionBox';
+import Loader from "../../components/Loader/Loader"
 
 function RevisionPage() {
 
@@ -37,6 +38,10 @@ function RevisionPage() {
           accessMessage: message || "Complete tuition fees to get access to all files"
         };
       }, [questions, authUser]);
+
+      if(!questions) return (
+    <Loader/>
+  );
 
   return (
     <div id="ca" className="page wb-page">
