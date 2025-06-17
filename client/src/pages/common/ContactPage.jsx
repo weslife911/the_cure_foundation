@@ -1,15 +1,17 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import { getAuthUser } from '../../features/users/userSlice';
+import { getAuthUser, getUserStatus } from '../../features/users/userSlice';
 import { useSelector } from 'react-redux';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import toast from 'react-hot-toast';
 import { axiosInstance } from '../../utils/axios';
+import Loader from '../../components/Loader/Loader';
 
 function ContactPage() {
 
   const authUser = useSelector(getAuthUser);
+  const userStatus = useSelector(getUserStatus);
 
   const formik = useFormik({
     initialValues: {
@@ -29,6 +31,12 @@ function ContactPage() {
       return response.data;
     }
   });
+
+  const isLoading = userStatus === "pending";
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
 <div id="contact" className="page wb-page">

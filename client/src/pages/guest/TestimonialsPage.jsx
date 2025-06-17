@@ -1,12 +1,17 @@
 import React from 'react'
 import { useSelector } from "react-redux";
-import { getTestimonies } from '../../features/images/imageSlice';
+import { getImageStatus, getTestimonies } from '../../features/images/imageSlice';
 import TestimonyBox from '../../components/TestimonyBox';
 import { usePagination } from '../../hooks/usePagination';
+import Loader from '../../components/Loader/Loader';
 
 function TestimonialsPage() {
 
      const testimonies = useSelector(getTestimonies);
+
+     const imageStatus  = useSelector(getImageStatus);
+     
+    const isLoading = imageStatus === "pending";
 
 
      const itemsPerPage = 3;
@@ -18,6 +23,10 @@ function TestimonialsPage() {
          prevPage,
          goToPage,
        } = usePagination(testimonies, itemsPerPage);
+
+       if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div id="home" className="page wb-page">

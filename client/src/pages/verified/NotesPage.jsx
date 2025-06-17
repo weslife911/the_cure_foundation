@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
-import { getAuthUser } from '../../features/users/userSlice';
-import { getAllQuestions } from '../../features/questions/questionSlice';
+import { getAuthUser, getUserStatus } from '../../features/users/userSlice';
+import { getAllQuestions, getQuestionStatus } from '../../features/questions/questionSlice';
 import QuestionBox from '../../components/QuestionBox';
 import Loader from "../../components/Loader/Loader"
 
@@ -38,7 +38,12 @@ function NotesPage() {
         };
       }, [questions, authUser]);
 
-      if(!questions) return (
+      const userStatus = useSelector(getUserStatus);
+    const questionStatus = useSelector(getQuestionStatus);
+
+  const isLoading = userStatus === "pending" || questionStatus === "pending";
+
+  if(!questions || isLoading) return (
     <Loader/>
   );
 

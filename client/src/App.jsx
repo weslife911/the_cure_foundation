@@ -19,33 +19,10 @@ import ContactPage from "./pages/common/ContactPage";
 import HomePage from "./pages/common/HomePage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { useSelector } from "react-redux";
-import { getUserStatus } from "./features/users/userSlice";
-import { getCountryStatus } from "./features/countries/countrySlice";
-import { getImageStatus } from "./features/images/imageSlice";
-import { getQuestionStatus } from "./features/questions/questionSlice";
-import Loader from "./components/Loader/Loader";
-import { getResultStatus } from "./features/results/resultSlice";
-import { getSubjectStatus } from "./features/subjects/subjectSlice";
 
 function App() {
 
   const token = localStorage.getItem("token");
-
-  const userStatus = useSelector(getUserStatus);
-  const countryStatus = useSelector(getCountryStatus);
-  const imageStatus  = useSelector(getImageStatus);
-  const questionStatus = useSelector(getQuestionStatus);
-  const resultStatus = useSelector(getResultStatus);
-  const subjectStatus = useSelector(getSubjectStatus);
-
-  const loading = userStatus === "pending" || countryStatus === "pending" || imageStatus === "pending" || questionStatus === "pending" || resultStatus === "pending" || subjectStatus === "pending";
-
-  if(loading) {
-    return (
-      <Loader/>
-    )
-  }
 
   return (
     <>

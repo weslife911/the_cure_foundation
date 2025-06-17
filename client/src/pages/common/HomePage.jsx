@@ -1,11 +1,32 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
-import { getAuthUser } from '../../features/users/userSlice';
+import { getAuthUser, getUserStatus } from '../../features/users/userSlice';
 import { Link } from "react-router-dom"
+import { getImageStatus } from '../../features/images/imageSlice';
+import { getQuestionStatus } from '../../features/questions/questionSlice';
+import { getResultStatus } from '../../features/results/resultSlice';
+import { getSubjectStatus } from '../../features/subjects/subjectSlice';
+import Loader from '../../components/Loader/Loader';
 
 function HomePage() {
 
   const authUser = useSelector(getAuthUser);
+
+
+  const userStatus = useSelector(getUserStatus);
+  // const countryStatus = useSelector(getCountryStatus);
+  const imageStatus  = useSelector(getImageStatus);
+  const questionStatus = useSelector(getQuestionStatus);
+  const resultStatus = useSelector(getResultStatus);
+  const subjectStatus = useSelector(getSubjectStatus);
+
+  const loading = userStatus === "pending" || imageStatus === "pending" || questionStatus === "pending" || resultStatus === "pending" || subjectStatus === "pending";
+
+  if(loading) {
+    return (
+      <Loader/>
+    )
+  }
 
   return (
 

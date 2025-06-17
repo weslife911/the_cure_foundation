@@ -3,14 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { isLoggedIn, loginUser } from '../../features/users/userSlice';
+import { getUserStatus, isLoggedIn, loginUser } from '../../features/users/userSlice';
 import { Eye, EyeOff } from "lucide-react"
+import Loader from '../../components/Loader/Loader';
 
 function LoginPage() {
   const dispatch = useDispatch();
   const isUserLoggedIn = useSelector(isLoggedIn);
   const navigate = useNavigate("/");
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
+  const userStatus = useSelector(getUserStatus);
 
   const formik = useFormik({
     initialValues: {
@@ -28,6 +30,12 @@ function LoginPage() {
       }
     }
   });
+
+  const isLoading = userStatus === "pending";
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div id="login" className="page wb-page">

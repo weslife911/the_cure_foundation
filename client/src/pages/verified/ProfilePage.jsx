@@ -2,8 +2,7 @@ import React from 'react'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { getAuthUser, updateProfile } from '../../features/users/userSlice';
-import { getAllCountries } from '../../features/countries/countrySlice';
+import { getAuthUser, getUserStatus, updateProfile } from '../../features/users/userSlice';
 import Loader from "../../components/Loader/Loader"
 
 function ProfilePage() {
@@ -35,9 +34,12 @@ function ProfilePage() {
       }
     });
 
-    const countries = useSelector(getAllCountries);
 
-    if(!countries) return (
+    const userStatus = useSelector(getUserStatus);
+
+  const isLoading = userStatus === "pending";
+
+  if(isLoading) return (
     <Loader/>
   );
   
@@ -89,16 +91,6 @@ function ProfilePage() {
                                 <div style={{display: "flex", flexDirection: "column", width: "50%"}}>
                                     <label id="label-field-9">  Enter Country Code </label>
                                     <input list="country-codes" value={formik.values.countryCode} onChange={formik.handleChange} name="countryCode" id="field-3"  placeholder="e.g +237" type="text"/>
-                                    <datalist id="country-codes">
-                                    <option>
-                                    {formik.values.countryCode}
-                                    </option>
-                                    {countries.map((country) => (
-                                      <option key={country.name.common} value={`${country.idd.root + country.idd.suffixes}`}>
-                                      {country.idd.root + country.idd.suffixes} {country.name.common}
-                                      </option>
-                                    ))}
-                                    </datalist>
                               <strong>
                               {formik.errors.countryCode}
                               </strong>

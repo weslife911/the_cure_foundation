@@ -1,12 +1,17 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getImages } from '../../features/images/imageSlice'
+import { getImages, getImageStatus } from '../../features/images/imageSlice'
 import ActivityBox from '../../components/ActivityBox';
 import { usePagination } from "../../hooks/usePagination";
+import Loader from '../../components/Loader/Loader';
 
 function ActivitiesPage() {
 
   const images = useSelector(getImages).filter(image => image.field === "activity");
+
+  const imageStatus  = useSelector(getImageStatus);
+
+  const isLoading = imageStatus === "pending";
 
   const itemsPerPage = 6;
   const {
@@ -17,6 +22,10 @@ function ActivitiesPage() {
     prevPage,
     goToPage,
   } = usePagination(images, itemsPerPage);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div id="activities" className="page wb-page">
