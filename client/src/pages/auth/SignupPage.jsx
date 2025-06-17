@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Eye, EyeOff } from 'lucide-react';
-import { getAllCountries, getCountryStatus } from '../../features/countries/countrySlice';
 import { hasSignedUp, signupUser, getUserStatus } from '../../features/users/userSlice';
 import Loader from '../../components/Loader/Loader';
 
@@ -16,12 +15,14 @@ function SignupPage() {
   
   // Redux state selectors
   const accountCreated = useSelector(hasSignedUp);
-  const countries = useSelector(getAllCountries);
-  const countryStatus = useSelector(getCountryStatus);
   const userStatus = useSelector(getUserStatus);
   
   // Loading states
   const isLoading = userStatus === 'pending';
+
+  const token = localStorage.getItem("token");
+
+  console.log(token);
 
   const formik = useFormik({
     initialValues: {

@@ -1,7 +1,6 @@
 const User = require("../models/User");
 const { genSalt, hash, compare } = require("bcryptjs");
 const { sign } = require("jsonwebtoken");
-const { transporter } = require("../utils/transporter");
 
 require("dotenv").config();
 
@@ -51,37 +50,6 @@ const registerUser = async(req, res) => {
                 httpOnly: true,
                 sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
                 secure: true,
-            });
-
-            const html = `
-                <h1>
-                    Welcome to THE CURE FOUNDATION!  
-                </h1>
-
-                <p>
-                    Dear ${newUser.name}, 
-                </p> 
-
-                <p>
-                    Thank you for creating an account with "THE CURE FOUNDATION". We're thrilled to have you join our community dedicated to making a positive impact. Your support means the world to us, and together, we can drive meaningful change.  
-
-                    As a member, you'll receive updates on our initiatives, events, and opportunities to get involved. If you have any questions or need assistance, feel free to reach out to us at ${process.env.GMAIL_USER}.  
-
-                    Welcome aboard, and thank you for being part of THE CURE FOUNDATION!  
-                </p>
-
-                <p>
-                    Warm regards,  
-                    ${newUser.name}
-                    THE CURE FOUNDATION Team
-                </p>
-            `;
-
-            await transporter.sendMail({
-                from: process.env.GMAIL_USER,
-                to: newUser.email,
-                subject: "Welcome email",
-                html: html
             });
 
             return res.json({

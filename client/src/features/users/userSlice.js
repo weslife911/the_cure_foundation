@@ -81,6 +81,7 @@ export const userSlice = createSlice({
         })
         .addCase(signupUser.fulfilled, (state, action) => {
             state.status = "fulfilled";
+            console.log(action.payload);
             if(action.payload.success === true) {
                 state.hasSignedUp = true;
                 localStorage.setItem("token", action.payload.token);
