@@ -1,28 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Eye, EyeOff } from 'lucide-react';
-import { hasSignedUp, signupUser, getUserStatus } from '../../features/users/userSlice';
-import Loader from '../../components/Loader/Loader';
+import { Eye, EyeOff } from 'lucide-react'; // Import Lucide icons
+import { getAllCountries } from '../../features/countries/countrySlice';
+import { hasSignedUp, signupUser } from '../../features/users/userSlice';
 
 function SignupPage() {
   const dispatch = useDispatch();
+  const accountCreated = useSelector(hasSignedUp);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  
-  // Redux state selectors
-  const accountCreated = useSelector(hasSignedUp);
-  const userStatus = useSelector(getUserStatus);
-  
-  // Loading states
-  const isLoading = userStatus === 'pending';
-
-  const token = localStorage.getItem("token");
-
-  console.log(token);
 
   const formik = useFormik({
     initialValues: {
@@ -41,40 +31,27 @@ function SignupPage() {
       countryCode: Yup.string().required("Country code is required"),
       phoneNumber: Yup.string().required("Phone Number is required"),
       password: Yup.string().min(8, "Password must be at least 8 characters"),
-      passwordConfirmation: Yup.string()
-        .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        .required("Password confirmation is required"),
+      passwordConfirmation: Yup.string().min(8, "Password must be at least 8 characters").required("Enter the same password as above to confirm password"),
     }),
-    onSubmit: async (values, { setSubmitting }) => {
-      try {
-        await dispatch(signupUser({
+    onSubmit: async(values) => {
+      if(values.password === values.passwordConfirmation) {
+        dispatch(signupUser({
           name: values.name,
           email: values.email,
           fieldOfStudy: values.fieldOfStudy,
           countryCode: values.countryCode,
           phoneNumber: values.phoneNumber,
           password: values.password
-        })).unwrap();
-        
-        navigate("/");
-      } catch (error) {
-        console.error("Signup failed:", error);
-      } finally {
-        setSubmitting(false);
+        }));
+        if(accountCreated) {
+          navigate("/");
+        }
       }
     }
   });
 
-  // Handle successful signup
-  useEffect(() => {
-    if (accountCreated) {
-      navigate("/");
-    }
-  }, [accountCreated, navigate]);
+  const countries = useSelector(getAllCountries);
 
-  if (isLoading) {
-    return <Loader />;
-  }
   return (
     <div id="login" className="page wb-page">
       <style id="sectionStyle-10945347"></style>
@@ -157,6 +134,14 @@ function SignupPage() {
                             placeholder="e.g +237" 
                             type="text"
                           />
+                          <datalist id="country-codes">
+                            <option>Select Country Code</option>
+                            {countries.map((country) => (
+                              <option key={country.name.common} value={`${country.idd.root + country.idd.suffixes}`}>
+                                {country.idd.root + country.idd.suffixes} {country.name.common}
+                              </option>
+                            ))}
+                          </datalist>
                           <strong style={{color: "red"}}>
                             {formik.errors.countryCode}
                           </strong>

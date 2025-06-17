@@ -133,6 +133,9 @@ export const userSlice = createSlice({
                 toast.error(action.payload.message);
             }
         })
+        .addCase('users/resetSignupState', (state) => {
+            state.hasSignedUp = false;
+        })
     }
 });
 
@@ -141,4 +144,5 @@ export const getUserStatus = (state) => state.users.status;
 export const hasSignedUp = (state) => state.users.hasSignedUp;
 export const isLoggedIn = (state) => state.users.isLoggedIn;
 export const getAuthUser = (state) => state.users.authUser;
+export const resetSignupState = () => ({ type: 'users/resetSignupState' });
 export default userSlice.reducer;
