@@ -14,6 +14,7 @@ const resultRoutes = require("./routes/ResultRoutes");
 const imageRoutes = require("./routes/ImageRoutes");
 const testimonyRoutes = require("./routes/TestimonyRoutes");
 const emailRoutes = require("./routes/EmailRoutes");
+const job = require("./utils/cron");
 
 const app = express();
 
@@ -50,6 +51,8 @@ app.get('/health', (req, res) => {
     timestamp: Date.now()
   });
 });
+
+job.start();
 
 app.get('/', (req, res) => {
   res.status(200).json({
